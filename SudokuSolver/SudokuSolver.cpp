@@ -239,6 +239,18 @@ int main()
 	Board board;
 	Board previousBoard;
 
+	board.number_array = {
+		{0,},
+		{2,},
+		{0,},
+		{8,},
+		{3,},
+		{0,},
+		{0,},
+		{0,},
+		{5,}
+	};
+
 	while (!Done(board))
 	{
 		previousBoard = board;
