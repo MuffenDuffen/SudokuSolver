@@ -6,13 +6,12 @@
 
 struct Index
 {
-    int x, y, xy;
+    int x, y;
 
     explicit Index(const int pos_x = 0, const int pos_y = 0)
     {
         x = pos_x;
         y = pos_y;
-        xy = x + y;
     }
 };
 
@@ -100,7 +99,7 @@ public:
 
 #pragma endregion
 
-#pragma region Done
+#pragma region Done-Checking
 
 bool Done(Board board)
 {
@@ -125,7 +124,7 @@ bool Done(Square square)
 
 #pragma region Number Finding
 
-std::vector<Index> Find_Zeroes(int number_array[][])
+std::vector<Index> Find_Zeroes(int number_array[9][9])
 {
     std::vector<Index> result;
     for (int a = 0; a < 9; a++)
@@ -135,17 +134,70 @@ std::vector<Index> Find_Zeroes(int number_array[][])
     return result;
 }
 
-Index GetIndex(int number_array[][], const int number)
+Index GetIndex(Square square, const int number)
 {
 	for (int x = 0; x < 3; x++)
 	{
 		for (int y = 0; y < 3; y++)
 		{
-			if (number_array[x][y] == number)
+			if (square.numbers[x][y] == number)
 				return Index(x, y);
 		}
 	}
 	return Index(-1, -1);
+}
+
+#pragma endregion
+
+#pragma region Converting
+
+int GetSquareIndex(Index index)
+{
+    if(index.x < 3)
+    {
+        if(index.y < 3)
+            return 0;
+        if(index.y < 6)
+            return  1;
+        return 2;
+    }
+    if(index.x < 6)
+    {
+        if(index.y < 3)
+            return 3;
+        if(index.y < 6)
+            return 4;
+        return 5;
+    }
+    if(index.y < 3)
+        return 6;
+    if(index.y < 6)
+        return  7;
+    return 8;
+}
+
+#pragma endregion
+
+#pragma region Fitting
+
+bool FitsHorizontally(Board board, const int fit, const Index pos)
+{
+    for (int i = 0; i < 9; ++i) if (board.number_array[pos.x][i] == fit) return false;
+    return true;
+}
+bool FitsVertically(Board board, const int fit, const Index pos)
+{
+    for (int i = 0; i < 9; ++i) if (board.number_array[i][pos.y] == fit) return false;
+    return true;
+}
+
+bool Fits(Board board, const int number, const Index index, const int square_index)
+{
+    if (GetIndex(board.square_array[square_index], number).x == -1) return false;
+
+    if (!FitsHorizontally(board, number, index) || !FitsVertically(board, number, index)) return false;
+	
+    return true;
 }
 
 #pragma endregion
@@ -156,7 +208,19 @@ int main()
 
     while (!Done(board))
     {
+        std::vector<Index> zeroes = Find_Zeroes(board.number_array);
+
+        int size = zeroes.size();
         
+        std::array<std::vector<int>, size> possibleNumbers;
+        for (int a = 0; a < size; a++)
+        {
+            std::vector<int> possibles;
+            for (int number = 1; number < 10; ++number)
+            {
+                
+            }
+        }
     }
     
     return 0;
