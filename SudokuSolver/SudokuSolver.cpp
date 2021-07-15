@@ -33,18 +33,30 @@ struct Square
 class Board
 {
 public:
-	int number_array[9][9] = {
-		{5,3,0,4,2,0,0,0,9},
-		{0,0,0,0,0,0,0,5,1},
-		{0,7,0,0,0,8,4,0,0},
-		{8,0,0,0,3,5,0,7,2},
-		{0,2,0,0,0,0,3,0,0},
-		{9,0,0,0,0,0,0,0,8},
-		{0,0,0,0,0,9,1,0,0},
-		{0,8,0,0,1,0,0,0,0},
-		{0,0,0,7,0,0,0,2,4}
-	};
+	// int number_array[9][9] = {
+	// 	{5,3,0,4,2,0,0,0,9},
+	// 	{0,0,0,0,0,0,0,5,1},
+	// 	{0,7,0,0,0,8,4,0,0},
+	// 	{8,0,0,0,3,5,0,7,2},
+	// 	{0,2,0,0,0,0,3,0,0},
+	// 	{9,0,0,0,0,0,0,0,8},
+	// 	{0,0,0,0,0,9,1,0,0},
+	// 	{0,8,0,0,1,0,0,0,0},
+	// 	{0,0,0,7,0,0,0,2,4}
+	// };
 
+	int number_array[9][9] = {
+		{5,0,0,0,0,0,2,8,0},
+		{0,0,0,2,0,9,0,4,5},
+		{0,7,0,0,8,0,0,0,0},
+		{3,0,8,0,5,2,4,1,7},
+		{1,0,5,7,9,3,6,2,0},
+		{7,0,6,0,0,0,0,0,9},
+		{9,1,0,0,2,6,0,0,0},
+		{2,0,0,0,0,0,0,0,4},
+		{0,5,0,8,0,7,1,0,0}
+	};
+	
 	std::array<Square, 9> square_array;
 
 	Board()
@@ -96,18 +108,17 @@ bool Done(Square square)
 	for (auto& i : square.numbers)
 		for (int j : i)
 			if (j == 0)
-				done = false;
-	return done;
+				return false;	
+	return true;	
 }
 
 bool Done(Board board)
 {
-	bool done = true;
 	for (auto& i : board.number_array)
 		for (int j : i)
 			if (j == 0)
-				done = false;
-	return done;
+				return false;	
+	return true;
 }
 #pragma endregion
 
@@ -172,6 +183,8 @@ Index ToBoardIndex (Index square_index, const int square)
 	case 8:
 		square_index.y += 6;
 		square_index.x += 6;
+		break;
+	default:
 		break;
 	}
 	return square_index;
@@ -238,18 +251,6 @@ int main()
 {
 	Board board;
 	Board previousBoard;
-
-	board.number_array = {
-		{0,},
-		{2,},
-		{0,},
-		{8,},
-		{3,},
-		{0,},
-		{0,},
-		{0,},
-		{5,}
-	};
 
 	while (!Done(board))
 	{
